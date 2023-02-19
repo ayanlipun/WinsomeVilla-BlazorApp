@@ -1,0 +1,119 @@
+﻿@page "/demoHotel"
+@using WisnomeVilla_Server.Model;
+
+
+<h3>We will dispaly hotel  rooms and amenities here!</h3>
+<div class="border p-2 mt-2" style="background-color:azure">
+    <h2 class="text-info">Rool list [USING Component] </h2>
+    <div class="row container">
+        @foreach (var room in blazorRooms)
+        {
+            <IndividualRoom BlazorRoom="@room"></IndividualRoom>
+        }
+    </div>
+    <br />
+    <h2 class="text-info"> Hotel Amenities [Assignment] </h2>
+    <div class="row container">
+        @foreach (var amenities in blazorAmenities)
+        {
+            <IndividualAmenities OnAmenitySelection="AmenitySelectionChanged" Amenities="@amenities"></IndividualAmenities>
+        }
+    </div>
+    <div class="col-12">
+        <p class="text-secondary">Selected Amenity : @SelectedAmenity</p>
+    </div>
+</div>
+
+
+
+@code {
+    public int SelectedRooms { get; set; } = 0;
+    public string SelectedAmenity { get; set; } = "Please select any amenities!";
+
+    List<BlazorRoom> blazorRooms = new List<BlazorRoom>();
+    List<BlazorAmenities> blazorAmenities = new List<BlazorAmenities>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        // Adding rooms.
+        blazorRooms.Add(new BlazorRoom()
+            {
+                Id = 101,
+                RoomName = "Villa Suite for one Bed Room",
+                IsActive = true,
+                Price = 499,
+                BlazorRoomProps = new List<Model.BlazorRoomProp>
+            {
+                new Model.BlazorRoomProp{Id=1,Name="sq ft", Value="25"},
+                 new Model.BlazorRoomProp{Id=2,Name="Occupancy", Value="22"},
+                   new Model.BlazorRoomProp{Id=3,Name="Area", Value="815"}
+            }
+            });
+
+        blazorRooms.Add(new BlazorRoom()
+            {
+                Id = 201,
+                RoomName = "Villa Suite for two bed room",
+                IsActive = true,
+                Price = 899,
+                BlazorRoomProps = new List<Model.BlazorRoomProp>
+            {
+                new Model.BlazorRoomProp{Id=1,Name="sq ft", Value="35"},
+                 new Model.BlazorRoomProp{Id=2,Name="Occupancy", Value="44"},
+                   new Model.BlazorRoomProp{Id=3,Name="Area", Value="1250"}
+            }
+            });
+
+        blazorRooms.Add(new BlazorRoom()
+            {
+                Id = 301,
+                RoomName = "Villa Suite for three bed room",
+                IsActive = true,
+                Price = 1299,
+                BlazorRoomProps = new List<Model.BlazorRoomProp>
+            {
+                new Model.BlazorRoomProp{Id=1,Name="sq ft", Value="45"},
+                 new Model.BlazorRoomProp{Id=2,Name="Occupancy", Value="55"},
+                   new Model.BlazorRoomProp{Id=3,Name="Area", Value="1550"}
+            }
+            });
+
+
+        // Adding Amenities.
+        blazorAmenities.Add(new BlazorAmenities()
+            {
+                Id = 111,
+                Name = "Gym",
+                Summary = "24X7 gym room is available."
+            });
+
+        blazorAmenities.Add(new BlazorAmenities()
+            {
+                Id = 222,
+                Name = "Swimming Pool",
+                Summary = "Poll is open from 6am to 10 pm."
+            });
+
+        blazorAmenities.Add(new BlazorAmenities()
+            {
+                Id = 333,
+                Name = "Free Breakfast",
+                Summary = "Enjoy the breakfast at out hotel."
+            });
+    }
+
+    protected void RoomSelectionCounterChanged(bool isRoomSelected)
+    {
+        if (isRoomSelected)
+            SelectedRooms++;
+        else
+            SelectedRooms--;
+    }
+
+    protected void AmenitySelectionChanged(string amenity)
+    {
+        SelectedAmenity = amenity;
+    }
+}

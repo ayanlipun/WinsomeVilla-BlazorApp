@@ -1,0 +1,125 @@
+﻿@page "/bindProp"
+@using WisnomeVilla_Server.Model;
+
+@*<PageTitle>Index</PageTitle>
+<h1>Hello, world!</h1>
+Welcome to your new app.
+<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+<div class="bg-light border p-2">
+    <h2 class="bg-light border p-2">First Room</h2>
+
+    Room: @room.RoomName
+    <br />
+    Price :  @room.Price
+    <br />
+    <input type="number" @bind-value="@room.Price" @bind-value:event="oninput" />
+    <br />
+    <input type="checkbox" @bind-value="@room.IsActive" checked="@(room.IsActive? "checked" : null)" /> &nbsp; Is Active
+    <br />
+    <span> This room is  "@(room.IsActive ? "Active" : "InActive")"</span>
+
+    <select @bind="selectedRoomProp">
+        @foreach (var prop in room.BlazorRoomProps)
+        {
+            <option value="@prop.Name">@prop.Name</option>
+        }
+    </select>
+    <br />
+    <span>The Room prop selected is : @selectedRoomProp  </span>
+</div>
+
+<div>
+    <br/>
+    <h2 class="= text-info"> Room List [Assignment 2]</h2>
+    <table class="table table-light">
+        @foreach (var room in blazorRooms)
+        {
+            <tr>
+                <td>
+                    <input type="text" @bind-value ="room.RoomName" @bind-value:event="oninput" />
+                </td>
+                <td>
+                    <input type="text" @bind-value="room.Price" @bind-value:event="oninput" />
+                </td>
+
+                @foreach (var roomProp in room.BlazorRoomProps)
+                {
+                    <td>@roomProp.Name - @roomProp.Value</td>
+                }
+            </tr>
+        }
+    </table>
+    <br />
+    @foreach (var room in blazorRooms)
+    {
+        <p>@room.RoomName's price is @room.Price</p>
+    }
+</div>
+
+@code {
+    string selectedRoomProp = "";
+    List<BlazorRoom> blazorRooms = new List<BlazorRoom>();
+
+    BlazorRoom room = new BlazorRoom()
+        {
+            Id = 101,
+            RoomName = "Villa Suite for one Bed Room",
+            IsActive = true,
+            Price = 499,
+            BlazorRoomProps = new List<Model.BlazorRoomProp>
+            {
+                new Model.BlazorRoomProp{Id=1,Name="sq ft", Value="25"},
+                 new Model.BlazorRoomProp{Id=2,Name="Occupancy", Value="22"},
+                   new Model.BlazorRoomProp{Id=3,Name="Area", Value="815"}
+            }
+        };
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        blazorRooms.Add(new BlazorRoom()
+            {
+                Id = 101,
+                RoomName = "Villa Suite for one Bed Room",
+                IsActive = true,
+                Price = 499,
+                BlazorRoomProps = new List<Model.BlazorRoomProp>
+            {
+                new Model.BlazorRoomProp{Id=1,Name="sq ft", Value="25"},
+                 new Model.BlazorRoomProp{Id=2,Name="Occupancy", Value="22"},
+                   new Model.BlazorRoomProp{Id=3,Name="Area", Value="815"}
+            }
+            });
+
+        blazorRooms.Add(new BlazorRoom()
+            {
+                Id = 201,
+                RoomName = "Villa Suite for two bed room",
+                IsActive = true,
+                Price = 899,
+                BlazorRoomProps = new List<Model.BlazorRoomProp>
+            {
+                new Model.BlazorRoomProp{Id=1,Name="sq ft", Value="35"},
+                 new Model.BlazorRoomProp{Id=2,Name="Occupancy", Value="44"},
+                   new Model.BlazorRoomProp{Id=3,Name="Area", Value="1250"}
+            }
+            });
+
+        blazorRooms.Add(new BlazorRoom()
+            {
+                Id = 301,
+                RoomName = "Villa Suite for three bed room",
+                IsActive = true,
+                Price = 1299,
+                BlazorRoomProps = new List<Model.BlazorRoomProp>
+            {
+                new Model.BlazorRoomProp{Id=1,Name="sq ft", Value="45"},
+                 new Model.BlazorRoomProp{Id=2,Name="Occupancy", Value="55"},
+                   new Model.BlazorRoomProp{Id=3,Name="Area", Value="1550"}
+            }
+            });
+    }
+}

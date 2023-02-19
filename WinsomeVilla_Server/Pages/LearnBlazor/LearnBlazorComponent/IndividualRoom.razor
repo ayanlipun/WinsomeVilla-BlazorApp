@@ -1,0 +1,30 @@
+﻿@using WisnomeVilla_Server.Model;
+
+<div class="bg-light border p-4 col-5">
+    <h2 class="text-secondary">Room - @BlazorRoom.Id</h2>
+
+    Room Name - @BlazorRoom.RoomName <br />
+    Room Price - @BlazorRoom.Price.ToString("c")<br />
+    <input type="checkbox" @bind-value="BlazorRoom.IsActive" checked="@(BlazorRoom.IsActive?"checked":null)" /> &ensp; Is Active @BlazorRoom.IsActive
+    <br />
+    <span>This room is @(BlazorRoom.IsActive ? "Active" : "InActive")</span>
+
+
+    @if (BlazorRoom.IsActive)
+    {
+        @foreach (var roomProp in BlazorRoom.BlazorRoomProps)
+        {
+            <td>@roomProp.Name - @roomProp.Value </td>
+        }
+    }
+
+    <EditDeleteButton IsAdmin="false"></EditDeleteButton>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public BlazorRoom BlazorRoom { get; set; }
+
+}
